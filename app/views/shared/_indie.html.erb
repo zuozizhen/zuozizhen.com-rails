@@ -1,0 +1,37 @@
+<div class="grid grid-cols-2 gap-6">
+  <%
+    projects = [
+      {
+        title: "NotionChina",
+        description: "Notion 中文站,帮助国内用户学习和使用 Notion",
+        year: "2021",
+        url: "https://notionchina.co",
+        image_url: "https://imagedelivery.net/8B08sdLvw783CQcaKhUoYw/687dc2f2-6725-481c-89f5-59b191ef8f00/public"
+      },
+      {
+        title: "FigmaChina",
+        description: "Figma 中文站,帮助国内用户学习和使用 Figma",
+        year: "2019",
+        url: "https://figmachina.com",
+        image_url: "https://imagedelivery.net/8B08sdLvw783CQcaKhUoYw/3eb5dcf2-ac9e-430b-1bf8-119a378c3a00/public"
+      }
+    ]
+  %>
+  <% projects.each do |project| %>
+    <%= link_to project[:url], target: "_blank", class: "flex justify-between items-center w-full py-4 border border-neutral-200 rounded-xl px-6 hover:shadow-lg transition" do %>
+      <div class="relative space-y-8 mb-4 w-full">
+        <div class="space-y-2">
+          <%= image_tag project[:image_url], class: "w-[52px] h-[52px] rounded-md absolute right-0", alt: "logo" %>
+          <h3 class="text-xl font-semibold leading-snug tracking-tight text-neutral-800">
+            <%= project[:title] %>
+          </h3>
+          <div class="text-gray-500 text-sm">
+            <span><%= project[:year] %> · 独立开发</span>
+          </div>
+          <div class="leading-6"><%= project[:description] %></div>
+        </div>
+        <div class="text-sm font-medium">访问网站 -></div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

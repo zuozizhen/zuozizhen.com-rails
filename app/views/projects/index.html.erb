@@ -1,0 +1,38 @@
+<% content_for :title, "工作项目" %>
+
+<section class="max-w-screen-lg mx-auto w-full px-5 py-12">
+  <div class="mb-8 mt-12">
+    <h1 class="text-4xl font-semibold">工作项目</h1>
+    <p class="text-neutral-500 mt-2">我参与过的一些工作项目</p>
+  </div>
+  <ul class="grid grid-cols-1 gap-10">
+    <% @projects.each do |project| %>
+      <li>
+        <%= link_to project_path(project) do %>
+          <div class="w-full aspect-[1480/830] flex relative items-center sm:pl-16 pl-6 overflow-hidden rounded-xl">
+            <div class="w-2/5 relative z-10">
+              <div class="flex gap-1 mb-2 text-white text-opacity-50 sm:text-base text-sm font-medium mix-blend-hard-light">
+                <%= project.year %> · <%= project.duty %>
+              </div>
+              <div class="flex items-center">
+                <h2 class="sm:text-3xl text-xl font-semibold leading-snug tracking-tight text-neutral-100">
+                  <%= project.title %>
+                </h2>
+              </div>
+              <div class="flex sm:gap-6 gap-2 mt-8">
+                <div class="flex gap-1 mt-1 text-white text-opacity-50 sm:text-base text-xs mix-blend-hard-light">
+                  查看项目 ->
+                </div>
+              </div>
+            </div>
+            <% if project.image_url.present? %>
+              <%= image_tag project.image_url, class: "w-full object-cover absolute right-0 top-0 -z-0", alt: project.title %>
+            <% else %>
+              <div class="w-full h-full absolute right-0 top-0 -z-0 bg-neutral-800"></div>
+            <% end %>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</section>

@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+
+/* Custom Fonts */
+@font-face {
+  font-family: 'HarmonyOS';
+  src: url('/fonts/HarmonyOS_Sans_SC_Black.woff2') format('woff2');
+  font-weight: 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS';
+  src: url('/fonts/HarmonyOS_Sans_SC_Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS';
+  src: url('/fonts/HarmonyOS_Sans_SC_Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS';
+  src: url('/fonts/HarmonyOS_Sans_SC_Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src:
+    url('/fonts/inter-var-latin.woff2') format('woff2 supports variations'),
+    url('/fonts/inter-var-latin.woff2') format('woff2-variations');
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 100% 100%;
+}
+
+/* Base Styles */
+html {
+  font-family: Inter, "HarmonyOS", "Helvetica Neue", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+body {
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+/* QR Code */
+.qr {
+  background: url(https://imagedelivery.net/8B08sdLvw783CQcaKhUoYw/5a37b821-cd16-4fdc-b85b-d6763a7e9500/public);
+  background-size: 105%;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Resource Cards */
+.card-resource {
+  aspect-ratio: 322 / 362;
+  transition: all 0.2s ease-out;
+}
+
+.card-resource.cv {
+  background: url(https://imagedelivery.net/8B08sdLvw783CQcaKhUoYw/1bd8c797-f7ef-40ea-5bb5-c78f9e2c6600/public) no-repeat 100% / cover;
+}
+
+.card-resource.cv-figma-free {
+  background: url(https://imagedelivery.net/8B08sdLvw783CQcaKhUoYw/acca6db3-5fe6-4b3e-81bf-172cbc202d00/public) no-repeat 100% / cover;
+}
+
+.card-resource.cv-notion {
+  background: url(https://imagedelivery.net/8B08sdLvw783CQcaKhUoYw/c4fc8e3e-d325-4878-55fb-8fac8b29d400/public) no-repeat 100% / cover;
+}
+
+.card-resource.year-end-notion {
+  background: url(https://imagedelivery.net/8B08sdLvw783CQcaKhUoYw/69d59800-9888-40fb-633b-48d7504d5600/public) no-repeat 100% / cover;
+}
+
+/* Prose Styles */
+.prose img {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 0.5rem;
+  margin: 0 auto;
+}
+
+.prose a {
+  color: #262626;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  opacity: 0.7;
+}
+
+/* Antialiased text */
+.antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

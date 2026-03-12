@@ -1,0 +1,22 @@
+<% content_for :title, @blog.title %>
+
+<section class="max-w-screen-lg mx-auto w-full px-5 py-12">
+  <div class="mx-auto max-w-3xl">
+    <div class="sm:mb-20 mb-10">
+      <div class="mt-12">
+        <h1 class="text-4xl font-semibold mb-3 text-neutral-800 leading-snug">
+          <%= @blog.title %>
+        </h1>
+        <time class="block text-gray-400 mb-3" datetime="<%= @blog.published_at&.iso8601 %>">
+          <%= @blog.formatted_date %>
+        </time>
+        <% if @blog.image_url.present? %>
+          <%= image_tag @blog.image_url, class: "rounded-xl flex-none w-full", alt: @blog.title %>
+        <% end %>
+      </div>
+      <div class="prose prose-lg mt-6">
+        <%= @blog.rendered_content %>
+      </div>
+    </div>
+  </div>
+</section>
