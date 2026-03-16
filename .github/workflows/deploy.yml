@@ -5,6 +5,10 @@ on:
     branches:
       - main  # 推送到 main 分支时自动部署
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
