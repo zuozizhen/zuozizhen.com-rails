@@ -43,10 +43,15 @@ jobs:
         run: |
           echo "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
       
+      - name: Build and push Docker image
+        run: |
+          docker buildx build --platform linux/amd64 \
+            -t ghcr.io/zuozizhen/zuozizhen:latest \
+            --push .
+      
       - name: Deploy with Kamal
         env:
-          KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           gem install kamal
-          kamal deploy
+          kamal app boot
