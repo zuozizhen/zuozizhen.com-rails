@@ -54,6 +54,10 @@ jobs:
         env:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
+          # Fix SSH key permissions
+          chmod 600 ~/.ssh/id_rsa
+          chmod 644 ~/.ssh/id_rsa.pub
+          
           # Configure SSH to use the key
           cat >> ~/.ssh/config <<EOF
           Host 178.104.58.157
@@ -63,8 +67,11 @@ jobs:
           EOF
           chmod 600 ~/.ssh/config
           
+          # Debug: check key fingerprint
+          ssh-keygen -lf ~/.ssh/id_rsa
+          
           # Test SSH connection
-          ssh root@178.104.58.157 "echo 'SSH connection successful'"
+          ssh -v root@178.104.58.157 "echo 'SSH connection successful'" 2>&1 | tail -20
           
           # Install and run Kamal
           gem install kamal
