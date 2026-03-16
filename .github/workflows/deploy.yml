@@ -28,9 +28,13 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
       
+      - name: Create master.key
+        run: |
+          echo "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
+      
       - name: Deploy with Kamal
         env:
-          GITHUB_TOKEN: ${{ secrets.GHCR_TOKEN }}
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.GHCR_TOKEN }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           gem install kamal
