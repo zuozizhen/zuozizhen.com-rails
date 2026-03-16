@@ -53,6 +53,7 @@ jobs:
       - name: Deploy with Kamal
         env:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Fix SSH key permissions
           chmod 600 ~/.ssh/id_rsa
