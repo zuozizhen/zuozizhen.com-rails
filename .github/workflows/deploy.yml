@@ -82,4 +82,4 @@ jobs:
           
           # Install and run Kamal
           gem install kamal
-          kamal deploy --skip-push
+          kamal deploy --skip-push --skip-pull
