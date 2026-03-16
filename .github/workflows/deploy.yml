@@ -50,6 +50,16 @@ jobs:
             -t ghcr.io/zuozizhen/zuozizhen:latest \
             --push .
       
+      - name: Debug registry password
+        run: |
+          if [ -z "$KAMAL_REGISTRY_PASSWORD" ]; then
+            echo "KAMAL_REGISTRY_PASSWORD is EMPTY!"
+          else
+            echo "KAMAL_REGISTRY_PASSWORD is set, length: ${#KAMAL_REGISTRY_PASSWORD}"
+          fi
+        env:
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+      
       - name: Deploy with Kamal
         env:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
