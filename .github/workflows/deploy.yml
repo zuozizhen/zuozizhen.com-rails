@@ -56,7 +56,6 @@ jobs:
         run: |
           # Fix SSH key permissions
           chmod 600 ~/.ssh/id_rsa
-          chmod 644 ~/.ssh/id_rsa.pub
           
           # Configure SSH to use the key
           cat >> ~/.ssh/config <<EOF
@@ -67,11 +66,8 @@ jobs:
           EOF
           chmod 600 ~/.ssh/config
           
-          # Debug: check key fingerprint
-          ssh-keygen -lf ~/.ssh/id_rsa
-          
           # Test SSH connection
-          ssh -v root@178.104.58.157 "echo 'SSH connection successful'" 2>&1 | tail -20
+          ssh root@178.104.58.157 "echo 'SSH connection successful'"
           
           # Install and run Kamal
           gem install kamal
