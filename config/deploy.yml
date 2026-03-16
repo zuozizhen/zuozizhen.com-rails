@@ -27,8 +27,8 @@ servers:
 registry:
   server: ghcr.io
   username: zuozizhen
-  password:
-    - KAMAL_REGISTRY_PASSWORD
+  # password:
+  #   - KAMAL_REGISTRY_PASSWORD
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
