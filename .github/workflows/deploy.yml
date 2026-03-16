@@ -71,4 +71,4 @@ jobs:
           
           # Install and run Kamal
           gem install kamal
-          kamal app boot
+          kamal deploy --skip-push
