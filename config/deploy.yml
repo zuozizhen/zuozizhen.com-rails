@@ -24,11 +24,11 @@ servers:
 #   host: zuozizhen.com
 
 # Where you keep your container images.
-# registry:
-#   server: ghcr.io
-#   username: zuozizhen
-#   password:
-#     - KAMAL_REGISTRY_PASSWORD
+registry:
+  server: ghcr.io
+  username: zuozizhen
+  password:
+    - KAMAL_REGISTRY_PASSWORD
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
