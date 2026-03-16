@@ -54,7 +54,18 @@ jobs:
         env:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
-          eval $(ssh-agent -s)
-          ssh-add ~/.ssh/id_rsa
+          # Configure SSH to use the key
+          cat >> ~/.ssh/config <<EOF
+          Host 178.104.58.157
+            IdentityFile ~/.ssh/id_rsa
+            StrictHostKeyChecking no
+            UserKnownHostsFile ~/.ssh/known_hosts
+          EOF
+          chmod 600 ~/.ssh/config
+          
+          # Test SSH connection
+          ssh root@178.104.58.157 "echo 'SSH connection successful'"
+          
+          # Install and run Kamal
           gem install kamal
           kamal app boot
