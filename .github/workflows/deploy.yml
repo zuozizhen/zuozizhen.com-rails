@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main  # 推送到 main 分支时自动部署
+  workflow_dispatch:  # 允许手动触发
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false  # 不取消进行中的部署
 
 permissions:
   contents: read
@@ -12,74 +17,34 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.4.1
           bundler-cache: true
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      
+
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           if_key_exists: replace
-      
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Create master.key
-        run: |
-          echo "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
-      
-      - name: Build and push Docker image
-        run: |
-          docker buildx build --platform linux/amd64 \
-            -t ghcr.io/zuozizhen/zuozizhen:latest \
-            --push .
-      
-      - name: Debug registry password
-        run: |
-          if [ -z "$KAMAL_REGISTRY_PASSWORD" ]; then
-            echo "KAMAL_REGISTRY_PASSWORD is EMPTY!"
-          else
-            echo "KAMAL_REGISTRY_PASSWORD is set, length: ${#KAMAL_REGISTRY_PASSWORD}"
-          fi
-        env:
-          KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
-      
+        run: echo "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
+
       - name: Deploy with Kamal
         env:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          KAMAL_REGISTRY_USERNAME: ${{ github.actor }}
         run: |
-          # Fix SSH key permissions
-          chmod 600 ~/.ssh/id_rsa
-          
-          # Configure SSH to use the key
-          cat >> ~/.ssh/config <<EOF
-          Host 178.104.58.157
-            IdentityFile ~/.ssh/id_rsa
-            StrictHostKeyChecking no
-            UserKnownHostsFile ~/.ssh/known_hosts
-          EOF
-          chmod 600 ~/.ssh/config
-          
-          # Test SSH connection
-          ssh root@178.104.58.157 "echo 'SSH connection successful'"
-          
-          # Install and run Kamal
-          gem install kamal
-          kamal deploy --skip-push
+          bundle exec kamal deploy

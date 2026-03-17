@@ -26,7 +26,8 @@ servers:
 # Where you keep your container images.
 registry:
   server: ghcr.io
-  username: zuozizhen
+  username:
+    - KAMAL_REGISTRY_USERNAME
   password:
     - KAMAL_REGISTRY_PASSWORD
 

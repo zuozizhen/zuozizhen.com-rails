@@ -15,6 +15,8 @@ https://github.com/zuozizhen/zuozizhen/settings/secrets/actions
 获取方式：
 ```bash
 cat ~/.ssh/id_rsa
+# 或者 ed25519 密钥：
+cat ~/.ssh/id_ed25519
 ```
 
 如果没有，先生成：
@@ -44,18 +46,8 @@ Rails 加密凭证的密钥。
 cat config/master.key
 ```
 
-#### GITHUB_TOKEN
-GitHub Actions 会自动提供 `GITHUB_TOKEN`，但它的权限可能不够。
-
-你需要创建一个 Personal Access Token：
-1. 访问：https://github.com/settings/tokens/new
-2. 勾选：`write:packages`, `read:packages`
-3. 生成后，添加为 secret（名称：`GHCR_TOKEN`）
-
-然后修改 workflow 文件中的：
-```yaml
-GITHUB_TOKEN: ${{ secrets.GHCR_TOKEN }}
-```
+> **注意**：不需要配置 `KAMAL_REGISTRY_PASSWORD` 或 `GHCR_TOKEN`。
+> 工作流使用 GitHub Actions 内置的 `GITHUB_TOKEN`（自动提供，已有 packages:write 权限）。
 
 ### 2. 推送代码
 
@@ -69,20 +61,18 @@ git push origin main
 GitHub Actions 会自动：
 1. ✅ 检出代码
 2. ✅ 设置 Ruby 环境
-3. ✅ 构建 Docker 镜像
+3. ✅ 通过 Kamal 构建 Docker 镜像
 4. ✅ 推送到 GitHub Container Registry
 5. ✅ SSH 到 VPS 部署
 6. ✅ 零停机更新
+
+也可以在 GitHub Actions 页面手动触发部署（workflow_dispatch）。
 
 ### 3. 查看部署状态
 
 访问：https://github.com/zuozizhen/zuozizhen/actions
 
 可以看到每次部署的日志和状态。
-
-## 方案 2：Webhook（备选）
-
-如果不想用 GitHub Actions，也可以在 VPS 上设置 webhook 监听 GitHub push 事件。
 
 ## 本地手动部署
 
@@ -96,12 +86,12 @@ bin/deploy
 1. **首次部署**仍需手动执行 `bin/kamal server bootstrap` 来安装 Docker
 2. **SSH 密钥**必须配置正确，GitHub Actions 才能连接到 VPS
 3. **RAILS_MASTER_KEY** 非常重要，不要泄露
-4. 建议在 Actions 中添加通知（Slack、邮件等）
+4. 部署有并发控制，不会同时运行多个部署
 
 ## 故障排查
 
 如果 Actions 失败：
-1. 检查 Secrets 是否配置正确
+1. 检查 Secrets 是否配置正确（SSH_PRIVATE_KEY、SSH_KNOWN_HOSTS、RAILS_MASTER_KEY）
 2. 查看 Actions 日志
 3. 确认 SSH 连接正常：`ssh root@178.104.58.157`
 4. 确认 Docker 已安装：`ssh root@178.104.58.157 "docker --version"`
