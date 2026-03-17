@@ -67,7 +67,7 @@ jobs:
       - name: Deploy with Kamal
         env:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.GHCR_TOKEN }}
           KAMAL_REGISTRY_USERNAME: ${{ github.actor }}
         run: |
           bundle exec kamal deploy --skip-push --version=${{ github.sha }}
